@@ -1,0 +1,27 @@
+/* h4{
+    display: inline;
+}
+h1{
+    display: inline;
+} */
+
+.keyboard {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	height: 120px;
+	width: 800px;
+	background-color: blue;
+	text-align: center;
+	margin: auto 0;
+}
+
+.keyboard-keys {
+	text-align: center;
+	margin: 3px;
+	width: 30px;
+	height: 30px;
+	justify-self: start;
+}
+.keyboard-keys:nth-child(1) {
+}
