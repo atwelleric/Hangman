@@ -23,5 +23,10 @@ h1{
 	height: 30px;
 	justify-self: start;
 }
-.keyboard-keys:nth-child(1) {
+/* .keyboard-keys:nth-child(1) {
+} */
+
+.hidden {
+    display: none;
+    background-color: blue;
 }
