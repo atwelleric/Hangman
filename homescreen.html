@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Welcome to Hangman!</h1>
-    <div class="hidden">
-        <input class="secret-word" type="text" placeholder="your secret word here" />
-        <button class="submit">Submit</button>
-    </div>
-    <!-- <footer class="homescreen-options">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<h1>Welcome to Hangman!</h1>
+		<div class="hidden">
+			<input
+				class="secret-word"
+				type="text"
+				placeholder="your secret word here"
+			/>
+			<button class="submit">Submit</button>
+		</div>
+		<!-- <footer class="homescreen-options">
         <div class="homescreen-container">
         </div>
         <nav class="homescreen-nav">
@@ -22,7 +26,39 @@
         </nav>
         
     </footer> -->
-    <button class='multiplayer-button'>PLAY MULTIPLAYER!</button>
-    <script src="homescreen.js"></script>
-</body>
+    <div class="keyboard hidden">
+        <button class="keyboard-keys">q</button>
+        <button class="keyboard-keys">w</button>
+        <button class="keyboard-keys">e</button>
+        <button class="keyboard-keys">r</button>
+        <button class="keyboard-keys">t</button>
+        <button class="keyboard-keys">y</button>
+        <button class="keyboard-keys">u</button>
+        <button class="keyboard-keys">i</button>
+        <button class="keyboard-keys">o</button>
+        <button class="keyboard-keys">p</button>
+        <!-- this is where next row should start -->
+        <button class="keyboard-keys">a</button>
+        <button class="keyboard-keys">s</button>
+        <button class="keyboard-keys">d</button>
+        <button class="keyboard-keys">f</button>
+        <button class="keyboard-keys">g</button>
+        <button class="keyboard-keys">h</button>
+        <button class="keyboard-keys">j</button>
+        <button class="keyboard-keys">k</button>
+        <button class="keyboard-keys">l</button>
+        <!-- this is where next row should start  -->
+        <button class="keyboard-keys">z</button>
+        <button class="keyboard-keys">x</button>
+        <button class="keyboard-keys">c</button>
+        <button class="keyboard-keys">v</button>
+        <button class="keyboard-keys">b</button>
+        <button class="keyboard-keys">n</button>
+        <button class="keyboard-keys">m</button>
+    </div>
+		<button class="multiplayer-button">PLAY MULTIPLAYER!</button>
+		<!-- <script src="homescreen.js"></script> -->
+		<!-- <script src="gamescreen.js"></script> -->
+		<script src="scripts.js"></script>
+	</body>
 </html>
