@@ -9,13 +9,12 @@ let wrongGuessNumber = 0;
 const submitButton = document.querySelector('.submit');
 let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
-let splitSecretWord = '';
+let splitSecretWord = [];
 submitButton.addEventListener('click', handleSubmitButton);
 
 function handleSubmitButton() {
 	submittedSecretWord = secretWord.value;
 	splitSecretWord = submittedSecretWord.split('');
-	console.log(splitSecretWord);
 	secretWord.value = ' ';
 }
 
@@ -32,22 +31,52 @@ function handleKeyClick(event) {
 	onScreenUserSelectedLetters.innerText = `Letters you chose: ${userSelectedLetters.join(
 		''
 	)}`;
-	console.log(userSelectedLetters);
+	evaluateUserGuess(event);
+	//console.log(userSelectedLetters);
 	console.log(wrongGuessNumber);
-	for (let i = 0; i < splitSecretWord.length; i++) {
-		if (event.target.innerText === splitSecretWord[i]) {
-			return true;
-			console.log(splitSecretWord[i]);
-			//can i update .length for only letters that dont exist? remove letters that have returned true from the array?
-			// } else {
-			// 	wrongGuessNumber ++;
-			// 	// if number of wrong returns equals .length, then add body part??
-			// }
-		} else {
-			return false;
-		}
+	console.log(splitSecretWord);
+	// for (let i = 0; i < splitSecretWord.length; i++) {
+	// 	if (event.target.innerText === splitSecretWord[i]) {
+	// 		return true;
+	// 		console.log(splitSecretWord[i]);
+	// 		//can i update .length for only letters that dont exist? remove letters that have returned true from the array?
+	// 		// } else {
+	// 		// 	wrongGuessNumber ++;
+	// 		// 	// if number of wrong returns equals .length, then add body part??
+	// 		// }
+	// 	} else {
+	// 		return false;
+	// 	}
+}
+
+function evaluateUserGuess(event) {
+	if (splitSecretWord.indexOf(event.target.innerText) >= 0) {
+		console.log('yay');
+	} else if (splitSecretWord.indexOf(event.target.innerText) <= -1) {
+		console.log('oops');
+		wrongGuessNumber++;
+	}
+	if (wrongGuessNumber == 1) {
+		document.querySelector('.hangman-img').src = './images/hangman2.png';
+	}
+	if (wrongGuessNumber == 2) {
+		document.querySelector('.hangman-img').src = './images/hangman3.png';
+	}
+	if (wrongGuessNumber == 3) {
+		document.querySelector('.hangman-img').src = './images/hangman4.png';
+	}
+	if (wrongGuessNumber == 4) {
+		document.querySelector('.hangman-img').src = './images/hangman5.png';
+	}
+	if (wrongGuessNumber == 5) {
+		document.querySelector('.hangman-img').src = './images/hangman6.png';
+	}
+	if (wrongGuessNumber == 6) {
+		document.querySelector('.hangman-img').src = './images/hangman7.png';
+		alert('game over try again');
 	}
 }
+
 //console.
 //evaluate if the clicked button is equal to any part of the user input string
 //if the letter is in the string, "reveal" all of those letters in the string
