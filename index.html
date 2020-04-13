@@ -9,19 +9,21 @@
 
 	<body>
 		<header>
-			<h4>
+			<h4 class="player-one-score">
 				Player 1 <br />
 				Score: <br />
 				0
 			</h4>
 			<h1>HANGMAN</h1>
-			<h4>
-				Player <br />
+			<h4 class="player-two-score">
+				Player 2<br />
 				Score: <br />
 				0
 			</h4>
-			<img class="hangman-img" src="./images/hangman1.png" />
 		</header>
+		<!-- <img class="hangman-img" src="./images/hangman1.png" /> -->
+		<main>
+		<div class="secret-word-on-screen"></div>
 		<input
 			class="secret-word"
 			type="text"
@@ -59,6 +61,7 @@
 			<button class="keyboard-keys">n</button>
 			<button class="keyboard-keys">m</button>
 		</div>
+		</main>
 		<script src="scripts.js"></script>
 	</body>
 </html>

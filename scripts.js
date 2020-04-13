@@ -1,5 +1,4 @@
 console.log('js is working');
-//Get the array of chosen letters to display on screen
 const userSelectedLetters = [];
 const onScreenUserSelectedLetters = document.querySelector(
 	'.user-selected-letters'
@@ -10,21 +9,31 @@ const submitButton = document.querySelector('.submit');
 let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
 let splitSecretWord = [];
+let newArray = [];
 submitButton.addEventListener('click', handleSubmitButton);
 
 function handleSubmitButton() {
 	submittedSecretWord = secretWord.value;
 	splitSecretWord = submittedSecretWord.split('');
 	secretWord.value = ' ';
+	newArray = Array(splitSecretWord.length).fill(' ');
+	// document.querySelector('.secret-word-on-screen').innerText =
+	// 	'_' splitSecretWord.length;
+	for (let i = 0; i < splitSecretWord.length; i++) {
+		let div = document.createElement('div');
+		div.classList.add('secret-div');
+		div.innerText = '_ ';
+		document.querySelector('.secret-word-on-screen').append(div);
+	}
 }
-
+// for loop, append instead of inner text, append div for each letter
 const keyboard = document.querySelector('.keyboard');
 keyboard.addEventListener('click', handleKeyClick);
 
-if ((handleKeyClick = false)) {
-	console.log('wrong');
-	wrongGuessNumber++;
-}
+// if ((handleKeyClick = false)) {
+// 	console.log('wrong');
+// 	wrongGuessNumber++;
+// }
 function handleKeyClick(event) {
 	userSelectedLetters.push(event.target.innerText);
 	event.target.setAttribute('disabled', true);
@@ -32,27 +41,25 @@ function handleKeyClick(event) {
 		''
 	)}`;
 	evaluateUserGuess(event);
-	//console.log(userSelectedLetters);
+	checkForWin();
 	console.log(wrongGuessNumber);
 	console.log(splitSecretWord);
-	// for (let i = 0; i < splitSecretWord.length; i++) {
-	// 	if (event.target.innerText === splitSecretWord[i]) {
-	// 		return true;
-	// 		console.log(splitSecretWord[i]);
-	// 		//can i update .length for only letters that dont exist? remove letters that have returned true from the array?
-	// 		// } else {
-	// 		// 	wrongGuessNumber ++;
-	// 		// 	// if number of wrong returns equals .length, then add body part??
-	// 		// }
-	// 	} else {
-	// 		return false;
-	// 	}
 }
 
 function evaluateUserGuess(event) {
 	if (splitSecretWord.indexOf(event.target.innerText) >= 0) {
-		console.log('yay');
-	} else if (splitSecretWord.indexOf(event.target.innerText) <= -1) {
+		//for loop find each index of the letter change inner text of that div to inner text of event target
+		for (let i = 0; i < splitSecretWord.length; i++) {
+			if (event.target.innerText === splitSecretWord[i]) {
+				const nodeList = document.querySelectorAll('.secret-div');
+				nodeList[i].innerText = event.target.innerText;
+				newArray[i] = event.target.innerText;
+				console.log(newArray);
+			}
+		}
+	}
+
+	if (splitSecretWord.indexOf(event.target.innerText) <= -1) {
 		console.log('oops');
 		wrongGuessNumber++;
 	}
@@ -75,6 +82,15 @@ function evaluateUserGuess(event) {
 		document.querySelector('.hangman-img').src = './images/hangman7.png';
 		alert('game over try again');
 	}
+}
+function checkForWin() {
+	//.includes
+	// empty is false, array itteration methods, if at least one thing is false SOME
+	if (newArray.join('') === submittedSecretWord) {
+		alert('winner');
+	}
+	console.log(newArray.join());
+	console.log(submittedSecretWord);
 }
 
 //console.
