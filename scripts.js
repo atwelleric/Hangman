@@ -10,7 +10,16 @@ let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
+let playerOne = true;
+
+//why isnt score onscreen updating???
+let playerOneScore = document.querySelector('#player-one-score-set').innerHTML;
+parseInt(playerOneScore);
+let playerTwoScore = 0;
 submitButton.addEventListener('click', handleSubmitButton);
+
+// Define logic for player one = false, write to screen "player two its your turn to guess, player one pick a word"
+// auto display player 2 chose word first since player one = true by default
 
 function handleSubmitButton() {
 	submittedSecretWord = secretWord.value;
@@ -64,22 +73,32 @@ function evaluateUserGuess(event) {
 		wrongGuessNumber++;
 	}
 	if (wrongGuessNumber == 1) {
-		document.querySelector('.hangman-img').src = './images/hangman2.png';
+		document.querySelector('main').style.backgroundImage =
+			"url('images/hangman2.png')";
 	}
 	if (wrongGuessNumber == 2) {
-		document.querySelector('.hangman-img').src = './images/hangman3.png';
+		document.querySelector('main').style.backgroundImage =
+			"url('images/hangman3.png')";
 	}
 	if (wrongGuessNumber == 3) {
-		document.querySelector('.hangman-img').src = './images/hangman4.png';
+		document.querySelector('main').style.backgroundImage =
+			"url('images/hangman4.png')";
 	}
 	if (wrongGuessNumber == 4) {
-		document.querySelector('.hangman-img').src = './images/hangman5.png';
+		document.querySelector('main').style.backgroundImage =
+			"url('images/hangman5.png')";
 	}
 	if (wrongGuessNumber == 5) {
-		document.querySelector('.hangman-img').src = './images/hangman6.png';
+		document.querySelector('main').style.backgroundImage =
+			"url('images/hangman6.png')";
 	}
 	if (wrongGuessNumber == 6) {
-		document.querySelector('.hangman-img').src = './images/hangman7.png';
+		document.querySelector('main').style.backgroundImage =
+			"url('images/hangman7.png')";
+		if ((playerOne = true)) {
+			playerTwoScore++;
+			playerOne = false;
+		}
 		alert('game over try again');
 	}
 }
@@ -87,11 +106,19 @@ function checkForWin() {
 	//.includes
 	// empty is false, array itteration methods, if at least one thing is false SOME
 	if (newArray.join('') === submittedSecretWord) {
+		playerOneScore++;
+		playerOne = false;
 		alert('winner');
 	}
-	console.log(newArray.join());
-	console.log(submittedSecretWord);
 }
+if (playerOne == false) {
+	let popw = document.querySelector('#player-one-pick-word');
+	popw.classList.toggle('hidden');
+} else if (playerOne == true) {
+	let ptpw = document.querySelector('#player-two-pick-word');
+	ptpw.classList.toggle('hidden');
+}
+function resetGame() {}
 
 //console.
 //evaluate if the clicked button is equal to any part of the user input string
