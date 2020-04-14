@@ -11,11 +11,12 @@ let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
 let playerOne = true;
+let playerOneScore = 0;
 
 //why isnt score onscreen updating???
-let playerOneScore = document.querySelector('#player-one-score-set').innerHTML;
+let playerOneScoreDisplay = document.querySelector('#player-one-score-set');
 parseInt(playerOneScore);
-let playerTwoScore = 0;
+//let playerTwoScore = 0;
 submitButton.addEventListener('click', handleSubmitButton);
 
 // Define logic for player one = false, write to screen "player two its your turn to guess, player one pick a word"
@@ -44,6 +45,8 @@ keyboard.addEventListener('click', handleKeyClick);
 // 	wrongGuessNumber++;
 // }
 function handleKeyClick(event) {
+	// if statement to make sure im clicking on right thing, code only works if event. target is the actual
+	// if (event.target.classList.contains(document.querySelector('.keyboard-keys'))){
 	userSelectedLetters.push(event.target.innerText);
 	event.target.setAttribute('disabled', true);
 	onScreenUserSelectedLetters.innerText = `Letters you chose: ${userSelectedLetters.join(
@@ -51,9 +54,9 @@ function handleKeyClick(event) {
 	)}`;
 	evaluateUserGuess(event);
 	checkForWin();
-	console.log(wrongGuessNumber);
-	console.log(splitSecretWord);
 }
+console.log(wrongGuessNumber);
+console.log(splitSecretWord);
 
 function evaluateUserGuess(event) {
 	if (splitSecretWord.indexOf(event.target.innerText) >= 0) {
@@ -104,21 +107,38 @@ function evaluateUserGuess(event) {
 }
 function checkForWin() {
 	//.includes
-	// empty is false, array itteration methods, if at least one thing is false SOME
+
 	if (newArray.join('') === submittedSecretWord) {
 		playerOneScore++;
+		playerOneScoreDisplay.innerHTML = playerOneScore;
 		playerOne = false;
-		alert('winner');
+		gameOverOnWin();
+		//maybe add to here if it doesnt work.
+		// alert('winner')
 	}
 }
-if (playerOne == false) {
-	let popw = document.querySelector('#player-one-pick-word');
-	popw.classList.toggle('hidden');
-} else if (playerOne == true) {
-	let ptpw = document.querySelector('#player-two-pick-word');
-	ptpw.classList.toggle('hidden');
+function switchTurns() {
+	if (playerOne == false) {
+		let popw = document.querySelector('#player-one-pick-word');
+		popw.classList.toggle('hidden');
+	} else if (playerOne == true) {
+		let ptpw = document.querySelector('#player-two-pick-word');
+		ptpw.classList.toggle('hidden');
+	}
 }
-function resetGame() {}
+
+function gameOverOnWin() {
+	document.querySelector('#game-over').style.display = 'block';
+	if (playerOne === false) {
+		let playerOneReset = `Congrats Player One! you correctly guessed ${submittedSecretWord}! Now it's player two's turn. Player One pick a secret word!`;
+		document.querySelector('.game-over-screen-text').innerText = playerOneReset;
+	}
+}
+let newGameButton = document.querySelector('.new-game');
+newGameButton.addEventListener('click', resetGame);
+function resetGame() {
+	window.location.reload();
+}
 
 //console.
 //evaluate if the clicked button is equal to any part of the user input string
