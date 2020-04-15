@@ -44,9 +44,6 @@ function retrieveRandomWord() {
 }
 //load the game on restart
 retrieveSaveData();
-if (playerOne.name !== '') {
-	document.querySelector('.user-name-input').classList.add('hidden');
-}
 //this function loads the saved data from local storage
 function retrieveSaveData() {
 	let retrievedData = localStorage.getItem('playerOne');
@@ -59,6 +56,9 @@ function retrieveSaveData() {
 function saveData() {
 	localStorage.setItem('playerOne', JSON.stringify(playerOne));
 	localStorage.setItem('playerTwo', JSON.stringify(playerTwo));
+	if (playerOne.name !== '') {
+		document.querySelector('.user-name-input').classList.add('hidden');
+	}
 }
 // This function is for the listener that submits the players name
 function handlePlayerOneName() {
