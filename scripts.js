@@ -90,20 +90,21 @@ keyboard.addEventListener('click', handleKeyClick);
 // this is the function to handle what happens when a key is clicked
 function handleKeyClick(event) {
 	// if statement to make sure im clicking on right thing, code only works if event. target is the actual
-	// if (event.target.classList.contains(document.querySelector('.keyboard-keys'))){
-	userSelectedLetters.push(event.target.innerText);
-	event.target.setAttribute('disabled', true);
-	if (playerOne.turn % 2 === 0) {
-		onScreenUserSelectedLetters.innerText = `${
-			playerOne.name
-		}'s Chosen Letters: ${userSelectedLetters.join('')}`;
-	} else if (playerOne.turn % 2 !== 0) {
-		onScreenUserSelectedLetters.innerText = `${
-			playerTwo.name
-		}'s Chosen Letters: ${userSelectedLetters.join('')}`;
+	if (event.target.classList.contains('keyboard-keys')) {
+		userSelectedLetters.push(event.target.innerText);
+		event.target.setAttribute('disabled', true);
+		if (playerOne.turn % 2 === 0) {
+			onScreenUserSelectedLetters.innerText = `${
+				playerOne.name
+			}'s Chosen Letters: ${userSelectedLetters.join('')}`;
+		} else if (playerOne.turn % 2 !== 0) {
+			onScreenUserSelectedLetters.innerText = `${
+				playerTwo.name
+			}'s Chosen Letters: ${userSelectedLetters.join('')}`;
+		}
+		evaluateUserGuess(event);
+		checkForWin();
 	}
-	evaluateUserGuess(event);
-	checkForWin();
 }
 //This is the function that evaluates wether the key pressed matches a letter in the string
 function evaluateUserGuess(event) {
