@@ -10,9 +10,10 @@
 	<body>
 		<header>
 			<h4 class="player-one-score">
-				Player 1 <br />
-				Score: <br />
-				<span id="player-one-score-set"> </span>
+				<input type="text" class="player-name" placeholder="Name">
+				<button class="submit-name">Submit</button>
+				<div class="player-one-name"></div>
+				<span id="player-one-score-set"></span>
 			</h4>
 			<h1>HANGMAN</h1>
 			<h4 class="player-two-score">
@@ -65,11 +66,14 @@
 					<button class="keyboard-keys">m</button>
 				</div>
 			</main>
-			<button class="new-game">New Game</button>
+			
 			<div id="game-over">
+				<div class="game-over-body">
 				<div class="game-over-screen-text">
 					Text Message Here
 				</div>
+				<button class="new-game">New Game</button>
+			</div>
 			</div>
 			<script src="scripts.js"></script>
 		</body>

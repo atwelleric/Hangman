@@ -1,4 +1,3 @@
-console.log('js is working');
 const userSelectedLetters = [];
 const onScreenUserSelectedLetters = document.querySelector(
 	'.user-selected-letters'
@@ -10,12 +9,41 @@ let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
-let playerOne = true;
-let playerOneScore = 0;
+//let playerOne = true;
 
-//why isnt score onscreen updating???
+// try turning players into an object, store a name, the value, and current score. accept user input for name.
+let submitNameButton = document.querySelector('.submit-name');
+submitNameButton.addEventListener('click', handlePlayerOneName);
+let playerOne = {
+	name: '',
+	score: 0,
+	turn: 0,
+};
+
+retrieveSaveData();
+function retrieveSaveData() {
+	let retrievedData = localStorage.getItem('playerOne');
+	playerOne = JSON.parse(retrievedData);
+}
+
+function saveData() {
+	localStorage.setItem('playerOne', JSON.stringify(playerOne));
+}
+
+function handlePlayerOneName() {
+	playerOne.name = document.querySelector('.player-name').value;
+	localStorage.setItem('playerOne', playerOne);
+	saveData();
+	// once stored make box disappear but add option for resetting stored name and score. maybe a pop up div warning saying it will reset score
+}
+document.querySelector('.player-one-name').innerText = playerOne.name;
+
+//local storage always stores as string
+//json .stingify can store object into a string, json parse turn sting into object
+//let playerOneScore = 0;
 let playerOneScoreDisplay = document.querySelector('#player-one-score-set');
-parseInt(playerOneScore);
+playerOneScoreDisplay.innerText = playerOne.score;
+parseInt(playerOne.score);
 //let playerTwoScore = 0;
 submitButton.addEventListener('click', handleSubmitButton);
 
@@ -27,8 +55,6 @@ function handleSubmitButton() {
 	splitSecretWord = submittedSecretWord.split('');
 	secretWord.value = ' ';
 	newArray = Array(splitSecretWord.length).fill(' ');
-	// document.querySelector('.secret-word-on-screen').innerText =
-	// 	'_' splitSecretWord.length;
 	for (let i = 0; i < splitSecretWord.length; i++) {
 		let div = document.createElement('div');
 		div.classList.add('secret-div');
@@ -40,10 +66,6 @@ function handleSubmitButton() {
 const keyboard = document.querySelector('.keyboard');
 keyboard.addEventListener('click', handleKeyClick);
 
-// if ((handleKeyClick = false)) {
-// 	console.log('wrong');
-// 	wrongGuessNumber++;
-// }
 function handleKeyClick(event) {
 	// if statement to make sure im clicking on right thing, code only works if event. target is the actual
 	// if (event.target.classList.contains(document.querySelector('.keyboard-keys'))){
@@ -55,8 +77,6 @@ function handleKeyClick(event) {
 	evaluateUserGuess(event);
 	checkForWin();
 }
-console.log(wrongGuessNumber);
-console.log(splitSecretWord);
 
 function evaluateUserGuess(event) {
 	if (splitSecretWord.indexOf(event.target.innerText) >= 0) {
@@ -98,45 +118,36 @@ function evaluateUserGuess(event) {
 	if (wrongGuessNumber == 6) {
 		document.querySelector('main').style.backgroundImage =
 			"url('images/hangman7.png')";
-		if ((playerOne = true)) {
+		if ((playerOne.turn = 0)) {
 			playerTwoScore++;
-			playerOne = false;
+			playerOne.turn = 1;
 		}
 		alert('game over try again');
 	}
 }
 function checkForWin() {
-	//.includes
-
 	if (newArray.join('') === submittedSecretWord) {
-		playerOneScore++;
-		playerOneScoreDisplay.innerHTML = playerOneScore;
-		playerOne = false;
+		playerOne.score++;
+		playerOneScoreDisplay.innerHTML = playerOne.score;
+		playerOne.turn = 1;
+
 		gameOverOnWin();
-		//maybe add to here if it doesnt work.
-		// alert('winner')
-	}
-}
-function switchTurns() {
-	if (playerOne == false) {
-		let popw = document.querySelector('#player-one-pick-word');
-		popw.classList.toggle('hidden');
-	} else if (playerOne == true) {
-		let ptpw = document.querySelector('#player-two-pick-word');
-		ptpw.classList.toggle('hidden');
 	}
 }
 
 function gameOverOnWin() {
-	document.querySelector('#game-over').style.display = 'block';
-	if (playerOne === false) {
-		let playerOneReset = `Congrats Player One! you correctly guessed ${submittedSecretWord}! Now it's player two's turn. Player One pick a secret word!`;
-		document.querySelector('.game-over-screen-text').innerText = playerOneReset;
+	document.querySelector('#game-over').style.display = 'flex';
+	if (playerOne.turn === 1) {
+		let playerOneReset = `Congrats <em>Player One</em>! you correctly guessed "${submittedSecretWord}"! Now it's <em>player two's</em> turn. <storng>Player One</strong> pick a secret word!`;
+		document.querySelector('.game-over-screen-text').innerHTML = playerOneReset;
+		saveData();
 	}
 }
 let newGameButton = document.querySelector('.new-game');
 newGameButton.addEventListener('click', resetGame);
+
 function resetGame() {
+	//saveData();
 	window.location.reload();
 }
 
