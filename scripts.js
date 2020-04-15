@@ -9,7 +9,6 @@ let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
-//let playerOne = true;
 
 // try turning players into an object, store a name, the value, and current score. accept user input for name.
 let submitNameButton = document.querySelector('.submit-name');
@@ -20,14 +19,36 @@ let playerOne = {
 	turn: 0,
 };
 
+let playerTwo = {
+	name: 'Challenger',
+	score: 0,
+};
+// localStorage.clear(playerTwo);
+fetch('https://wordsapiv1.p.rapidapi.com/words/?random=true', {
+	method: 'GET',
+	headers: {
+		'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com',
+		'x-rapidapi-key': '3427bc25dfmsh7043a8ebc4ae39cp1a655djsnb955d4690e12',
+	},
+})
+	.then((response) => {
+		console.log(response);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+
 retrieveSaveData();
 function retrieveSaveData() {
 	let retrievedData = localStorage.getItem('playerOne');
 	playerOne = JSON.parse(retrievedData);
+	let retrievedDataP2 = localStorage.getItem('playerTwo');
+	playerTwo = JSON.parse(retrievedDataP2);
 }
 
 function saveData() {
 	localStorage.setItem('playerOne', JSON.stringify(playerOne));
+	localStorage.setItem('playerTwo', JSON.stringify(playerTwo));
 }
 
 function handlePlayerOneName() {
@@ -41,9 +62,6 @@ document.querySelector('.player-one-name').innerText = playerOne.name;
 //local storage always stores as string
 //json .stingify can store object into a string, json parse turn sting into object
 //let playerOneScore = 0;
-let playerOneScoreDisplay = document.querySelector('#player-one-score-set');
-playerOneScoreDisplay.innerText = playerOne.score;
-parseInt(playerOne.score);
 //let playerTwoScore = 0;
 submitButton.addEventListener('click', handleSubmitButton);
 
@@ -71,9 +89,15 @@ function handleKeyClick(event) {
 	// if (event.target.classList.contains(document.querySelector('.keyboard-keys'))){
 	userSelectedLetters.push(event.target.innerText);
 	event.target.setAttribute('disabled', true);
-	onScreenUserSelectedLetters.innerText = `Letters you chose: ${userSelectedLetters.join(
-		''
-	)}`;
+	if (playerOne.turn % 2 === 0) {
+		onScreenUserSelectedLetters.innerText = `${
+			playerOne.name
+		}'s Chosen Letters: ${userSelectedLetters.join('')}`;
+	} else if (playerOne.turn % 2 !== 0) {
+		onScreenUserSelectedLetters.innerText = `${
+			playerTwo.name
+		}'s Chosen Letters: ${userSelectedLetters.join('')}`;
+	}
 	evaluateUserGuess(event);
 	checkForWin();
 }
@@ -118,27 +142,62 @@ function evaluateUserGuess(event) {
 	if (wrongGuessNumber == 6) {
 		document.querySelector('main').style.backgroundImage =
 			"url('images/hangman7.png')";
-		if ((playerOne.turn = 0)) {
-			playerTwoScore++;
-			playerOne.turn = 1;
-		}
-		alert('game over try again');
+		// if ((playerOne.turn = 0)) {
+		// 	playerTwoScore++;
+		// 	playerOne.turn ++;
+		// }
+		// if (playerOne.turn % 2 === 0) {
+		// }
+		gameOverOnLoss();
 	}
 }
+let playerOneScoreDisplay = document.querySelector('#player-one-score-set');
+playerOneScoreDisplay.innerText = playerOne.score;
+let playerTwoScoreDisplay = document.querySelector('#player-two-score-set');
+playerTwoScoreDisplay.innerText = playerTwo.score;
 function checkForWin() {
-	if (newArray.join('') === submittedSecretWord) {
+	if (newArray.join('') === submittedSecretWord && playerOne.turn % 2 == 0) {
 		playerOne.score++;
 		playerOneScoreDisplay.innerHTML = playerOne.score;
-		playerOne.turn = 1;
-
+		playerOne.turn++;
+		saveData();
 		gameOverOnWin();
+	} else if (
+		newArray.join('') === submittedSecretWord &&
+		playerOne.turn % 2 !== 0
+	) {
+		playerTwo.score++;
+		playerTwoScoreDisplay.innerHTML = playerTwo.score;
+		playerOne.turn++;
+		saveData();
+		gameOverOnWin();
+	}
+}
+function gameOverOnLoss() {
+	document.querySelector('#game-over').style.display = 'flex';
+	if (playerOne.turn % 2 === 0) {
+		let playerReset = `Oh No! The correct word was "${submittedSecretWord}"! Nice try. <em>Challenger<em> receives <span id="red-name">+1</span>! Now it's The Challenger's turn. <span id="red-name">${playerOne.name}<span> pick a new secret word!!`;
+		document.querySelector('.game-over-screen-text').innerHTML = playerReset;
+		playerTwo.score++;
+		playerOne.turn++;
+		saveData();
+	} else if (playerOne.turn % 2 !== 0) {
+		let playerReset = `Oh No! The correct word was "${submittedSecretWord}"! Nice try. <em>${playerOne.name}<em> receives <span id="red-name">+1</span>! Now it's The ${playerOne.name}'s turn. <span id="red-name">Challenger<span> pick a new secret word!!`;
+		document.querySelector('.game-over-screen-text').innerHTML = playerReset;
+		playerOne.score++;
+		playerOne.turn++;
+		saveData();
 	}
 }
 
 function gameOverOnWin() {
 	document.querySelector('#game-over').style.display = 'flex';
-	if (playerOne.turn === 1) {
-		let playerOneReset = `Congrats <em>Player One</em>! you correctly guessed "${submittedSecretWord}"! Now it's <em>player two's</em> turn. <storng>Player One</strong> pick a secret word!`;
+	if (playerOne.turn % 2 === 0) {
+		let playerOneReset = `Congrats <em>Player One</em>! You correctly guessed "${submittedSecretWord}"! Now it's <em>The Challenger's</em> turn. <span id='red-name'>Player One</span> pick a secret word!`;
+		document.querySelector('.game-over-screen-text').innerHTML = playerOneReset;
+		saveData();
+	} else if (playerOne.turn % 2 !== 0) {
+		let playerOneReset = `Congrats <em>Challenger</em>! You correctly guessed "${submittedSecretWord}"! Now it's <em>player one's</em> turn. <span id="red-name">Challenger</span> pick a secret word!`;
 		document.querySelector('.game-over-screen-text').innerHTML = playerOneReset;
 		saveData();
 	}
@@ -151,6 +210,7 @@ function resetGame() {
 	window.location.reload();
 }
 
+//parseInt(playerTwo.score);
 //console.
 //evaluate if the clicked button is equal to any part of the user input string
 //if the letter is in the string, "reveal" all of those letters in the string

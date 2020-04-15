@@ -6,75 +6,74 @@
 		<title>Hangman</title>
 		<link rel="stylesheet" href="styles.css" />
 	</head>
-	
+
 	<body>
 		<header>
 			<h4 class="player-one-score">
-				<input type="text" class="player-name" placeholder="Name">
+				<input type="text" class="player-name" placeholder="Name" />
 				<button class="submit-name">Submit</button>
 				<div class="player-one-name"></div>
 				<span id="player-one-score-set"></span>
 			</h4>
 			<h1>HANGMAN</h1>
 			<h4 class="player-two-score">
-				Player 2<br />
-				Score: <br />
-				0
+				<div class="player-name">Challenger</div>
+				<span id="player-two-score-set"></span>
 			</h4>
 		</header>
 		<!-- <img class="hangman-img" src="./images/hangman1.png" /> -->
 		<main>
-			<h2 class="hidden" id="player-one-pick-word">Player Two, it's your turn to guess now! </br> Player One, pick your secret word. </h2>
+			<!-- <h2 class="hidden" id="player-one-pick-word">Player Two, it's your turn to guess now! </br> Player One, pick your secret word. </h2>
 			<h2 class="hidden" id="player-two-pick-word">Player One, it's your turn to guess now! </br> Player Two, pick your secret
-				word. </h2>
-				<div class="secret-word-on-screen"></div>
-				<input
+				word. </h2> -->
+			<div class="secret-word-on-screen"></div>
+			<input
 				class="secret-word"
 				type="text"
 				placeholder="your secret word here"
-				/>
-				<button class="submit">Submit</button>
-				<h2 class="user-selected-letters">Letters you chose:</h2>
-				<div class="keyboard">
-					<button class="keyboard-keys">q</button>
-					<button class="keyboard-keys">w</button>
-					<button class="keyboard-keys">e</button>
-					<button class="keyboard-keys">r</button>
-					<button class="keyboard-keys">t</button>
-					<button class="keyboard-keys">y</button>
-					<button class="keyboard-keys">u</button>
-					<button class="keyboard-keys">i</button>
-					<button class="keyboard-keys">o</button>
-					<button class="keyboard-keys">p</button>
-					<!-- this is where next row should start -->
-					<button class="keyboard-keys">a</button>
-					<button class="keyboard-keys">s</button>
-					<button class="keyboard-keys">d</button>
-					<button class="keyboard-keys">f</button>
-					<button class="keyboard-keys">g</button>
-					<button class="keyboard-keys">h</button>
-					<button class="keyboard-keys">j</button>
-					<button class="keyboard-keys">k</button>
-					<button class="keyboard-keys">l</button>
-					<!-- this is where next row should start  -->
-					<button class="keyboard-keys">z</button>
-					<button class="keyboard-keys">x</button>
-					<button class="keyboard-keys">c</button>
-					<button class="keyboard-keys">v</button>
-					<button class="keyboard-keys">b</button>
-					<button class="keyboard-keys">n</button>
-					<button class="keyboard-keys">m</button>
-				</div>
-			</main>
-			
-			<div id="game-over">
-				<div class="game-over-body">
+			/>
+			<button class="submit">Submit</button>
+			<h2 class="user-selected-letters"></h2>
+			<div class="keyboard">
+				<button class="keyboard-keys">q</button>
+				<button class="keyboard-keys">w</button>
+				<button class="keyboard-keys">e</button>
+				<button class="keyboard-keys">r</button>
+				<button class="keyboard-keys">t</button>
+				<button class="keyboard-keys">y</button>
+				<button class="keyboard-keys">u</button>
+				<button class="keyboard-keys">i</button>
+				<button class="keyboard-keys">o</button>
+				<button class="keyboard-keys">p</button>
+				<!-- this is where next row should start -->
+				<button class="keyboard-keys">a</button>
+				<button class="keyboard-keys">s</button>
+				<button class="keyboard-keys">d</button>
+				<button class="keyboard-keys">f</button>
+				<button class="keyboard-keys">g</button>
+				<button class="keyboard-keys">h</button>
+				<button class="keyboard-keys">j</button>
+				<button class="keyboard-keys">k</button>
+				<button class="keyboard-keys">l</button>
+				<!-- this is where next row should start  -->
+				<button class="keyboard-keys">z</button>
+				<button class="keyboard-keys">x</button>
+				<button class="keyboard-keys">c</button>
+				<button class="keyboard-keys">v</button>
+				<button class="keyboard-keys">b</button>
+				<button class="keyboard-keys">n</button>
+				<button class="keyboard-keys">m</button>
+			</div>
+		</main>
+
+		<div id="game-over">
+			<div class="game-over-body">
 				<div class="game-over-screen-text">
 					Text Message Here
 				</div>
 				<button class="new-game">New Game</button>
 			</div>
-			</div>
-			<script src="scripts.js"></script>
-		</body>
-		</html>
+		</div>
+		<script src="scripts.js"></script>
+	</body>
+</html>
