@@ -5,13 +5,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Hangman</title>
 		<link rel="stylesheet" href="styles.css" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Rye&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 
 	<body>
 		<header>
 			<h4 class="player-one-score">
-				<input type="text" class="player-name" placeholder="Name" />
-				<button class="submit-name">Submit</button>
+				<div class="user-name-input">
+					<input type="text" class="player-name" placeholder="Name" />
+					<button class="submit-name">Submit</button>
+				</div>
 				<div class="player-one-name"></div>
 				<span id="player-one-score-set"></span>
 			</h4>
@@ -21,11 +27,8 @@
 				<span id="player-two-score-set"></span>
 			</h4>
 		</header>
-		<!-- <img class="hangman-img" src="./images/hangman1.png" /> -->
 		<main>
-			<!-- <h2 class="hidden" id="player-one-pick-word">Player Two, it's your turn to guess now! </br> Player One, pick your secret word. </h2>
-			<h2 class="hidden" id="player-two-pick-word">Player One, it's your turn to guess now! </br> Player Two, pick your secret
-				word. </h2> -->
+			<button class="random-word">Random Word</button>
 			<div class="secret-word-on-screen"></div>
 			<input
 				class="secret-word"

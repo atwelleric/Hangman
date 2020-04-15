@@ -3,14 +3,12 @@ const onScreenUserSelectedLetters = document.querySelector(
 	'.user-selected-letters'
 );
 let wrongGuessNumber = 0;
-//Later, two seperate arrays that will put incorrect letters on one side, correct letters on the other
 const submitButton = document.querySelector('.submit');
 let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
-
-// try turning players into an object, store a name, the value, and current score. accept user input for name.
+//Handle name submit for the player, then create an object for the player to score name and score
 let submitNameButton = document.querySelector('.submit-name');
 submitNameButton.addEventListener('click', handlePlayerOneName);
 let playerOne = {
@@ -18,27 +16,38 @@ let playerOne = {
 	score: 0,
 	turn: 0,
 };
-
 let playerTwo = {
 	name: 'Challenger',
 	score: 0,
 };
-// localStorage.clear(playerTwo);
-fetch('https://wordsapiv1.p.rapidapi.com/words/?random=true', {
-	method: 'GET',
-	headers: {
-		'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com',
-		'x-rapidapi-key': '3427bc25dfmsh7043a8ebc4ae39cp1a655djsnb955d4690e12',
-	},
-})
-	.then((response) => {
-		console.log(response);
+// API for the random word generation
+let randomWordButton = document.querySelector('.random-word');
+randomWordButton.addEventListener('click', retrieveRandomWord);
+function retrieveRandomWord() {
+	fetch('https://wordsapiv1.p.rapidapi.com/words/?random=true', {
+		method: 'GET',
+		headers: {
+			'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com',
+			'x-rapidapi-key': '3427bc25dfmsh7043a8ebc4ae39cp1a655djsnb955d4690e12',
+		},
 	})
-	.catch((err) => {
-		console.log(err);
-	});
-
+		.then((response) => response.json())
+		.then((response) => {
+			submittedSecretWord = response.word;
+			return response.word;
+			//inside of .then test before submitted and if it has special charecter or space, discard and rerun
+		})
+		.then(handleSubmitButton)
+		.catch((err) => {
+			console.log(err);
+		});
+}
+//load the game on restart
 retrieveSaveData();
+if (playerOne.name !== '') {
+	document.querySelector('.user-name-input').classList.add('hidden');
+}
+//this function loads the saved data from local storage
 function retrieveSaveData() {
 	let retrievedData = localStorage.getItem('playerOne');
 	playerOne = JSON.parse(retrievedData);
@@ -46,32 +55,27 @@ function retrieveSaveData() {
 	playerTwo = JSON.parse(retrievedDataP2);
 }
 
+// This function save the player score data in local storage
 function saveData() {
 	localStorage.setItem('playerOne', JSON.stringify(playerOne));
 	localStorage.setItem('playerTwo', JSON.stringify(playerTwo));
 }
-
+// This function is for the listener that submits the players name
 function handlePlayerOneName() {
 	playerOne.name = document.querySelector('.player-name').value;
 	localStorage.setItem('playerOne', playerOne);
 	saveData();
-	// once stored make box disappear but add option for resetting stored name and score. maybe a pop up div warning saying it will reset score
+	// document.querySelector('.user-name-input').classList.add('hidden')
 }
 document.querySelector('.player-one-name').innerText = playerOne.name;
-
-//local storage always stores as string
-//json .stingify can store object into a string, json parse turn sting into object
-//let playerOneScore = 0;
-//let playerTwoScore = 0;
 submitButton.addEventListener('click', handleSubmitButton);
-
-// Define logic for player one = false, write to screen "player two its your turn to guess, player one pick a word"
-// auto display player 2 chose word first since player one = true by default
-
+//This function is to handle the submit button after the user selects a word
 function handleSubmitButton() {
-	submittedSecretWord = secretWord.value;
+	submittedSecretWord = secretWord.value
+		? secretWord.value
+		: submittedSecretWord;
 	splitSecretWord = submittedSecretWord.split('');
-	secretWord.value = ' ';
+	secretWord.value = '';
 	newArray = Array(splitSecretWord.length).fill(' ');
 	for (let i = 0; i < splitSecretWord.length; i++) {
 		let div = document.createElement('div');
@@ -80,10 +84,10 @@ function handleSubmitButton() {
 		document.querySelector('.secret-word-on-screen').append(div);
 	}
 }
-// for loop, append instead of inner text, append div for each letter
+//event listener for keyboard keys
 const keyboard = document.querySelector('.keyboard');
 keyboard.addEventListener('click', handleKeyClick);
-
+// this is the function to handle what happens when a key is clicked
 function handleKeyClick(event) {
 	// if statement to make sure im clicking on right thing, code only works if event. target is the actual
 	// if (event.target.classList.contains(document.querySelector('.keyboard-keys'))){
@@ -101,10 +105,9 @@ function handleKeyClick(event) {
 	evaluateUserGuess(event);
 	checkForWin();
 }
-
+//This is the function that evaluates wether the key pressed matches a letter in the string
 function evaluateUserGuess(event) {
 	if (splitSecretWord.indexOf(event.target.innerText) >= 0) {
-		//for loop find each index of the letter change inner text of that div to inner text of event target
 		for (let i = 0; i < splitSecretWord.length; i++) {
 			if (event.target.innerText === splitSecretWord[i]) {
 				const nodeList = document.querySelectorAll('.secret-div');
@@ -142,19 +145,15 @@ function evaluateUserGuess(event) {
 	if (wrongGuessNumber == 6) {
 		document.querySelector('main').style.backgroundImage =
 			"url('images/hangman7.png')";
-		// if ((playerOne.turn = 0)) {
-		// 	playerTwoScore++;
-		// 	playerOne.turn ++;
-		// }
-		// if (playerOne.turn % 2 === 0) {
-		// }
 		gameOverOnLoss();
 	}
 }
+// the functionality for displaying the players scores
 let playerOneScoreDisplay = document.querySelector('#player-one-score-set');
 playerOneScoreDisplay.innerText = playerOne.score;
 let playerTwoScoreDisplay = document.querySelector('#player-two-score-set');
 playerTwoScoreDisplay.innerText = playerTwo.score;
+// this function checks if the player won
 function checkForWin() {
 	if (newArray.join('') === submittedSecretWord && playerOne.turn % 2 == 0) {
 		playerOne.score++;
@@ -173,6 +172,7 @@ function checkForWin() {
 		gameOverOnWin();
 	}
 }
+// this updates the game over screen to display the result if it was a loss
 function gameOverOnLoss() {
 	document.querySelector('#game-over').style.display = 'flex';
 	if (playerOne.turn % 2 === 0) {
@@ -182,14 +182,14 @@ function gameOverOnLoss() {
 		playerOne.turn++;
 		saveData();
 	} else if (playerOne.turn % 2 !== 0) {
-		let playerReset = `Oh No! The correct word was "${submittedSecretWord}"! Nice try. <em>${playerOne.name}<em> receives <span id="red-name">+1</span>! Now it's The ${playerOne.name}'s turn. <span id="red-name">Challenger<span> pick a new secret word!!`;
+		let playerReset = `Oh No! The correct word was "${submittedSecretWord}"! Nice try. <em>${playerOne.name}<em> receives <span id="red-name">+1</span>! Now it's ${playerOne.name}'s turn. <span id="red-name">Challenger<span> pick a new secret word!!`;
 		document.querySelector('.game-over-screen-text').innerHTML = playerReset;
 		playerOne.score++;
 		playerOne.turn++;
 		saveData();
 	}
 }
-
+// same thing as before, but for the win conditions
 function gameOverOnWin() {
 	document.querySelector('#game-over').style.display = 'flex';
 	if (playerOne.turn % 2 === 0) {
@@ -202,24 +202,10 @@ function gameOverOnWin() {
 		saveData();
 	}
 }
+//this is the button that resets the game
 let newGameButton = document.querySelector('.new-game');
 newGameButton.addEventListener('click', resetGame);
 
 function resetGame() {
-	//saveData();
 	window.location.reload();
 }
-
-//parseInt(playerTwo.score);
-//console.
-//evaluate if the clicked button is equal to any part of the user input string
-//if the letter is in the string, "reveal" all of those letters in the string
-//accept user input and create string
-//if user input contains special characters alert error
-//submit button collects user input and clears input box
-//break string into individual letters
-//display string on screen with blank images instead of letters, but have length accounted for
-//maybe send everything to uppercase automatically to avoid any issues with comparing
-
-//if incorrect option is given, update to different img src
-// when letter is chosen, change display to grey or some thing

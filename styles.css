@@ -1,13 +1,15 @@
-/* h4{
-    display: inline;
+h1 {
+	font-family: 'Rye', cursive;
+	font-size: 40px;
 }
-h1{
-    display: inline;
-} */
+h4 {
+	font-family: 'Rye', cursive;
+	font-size: 20px;
+}
 body {
 	min-height: 100vh;
 	display: grid;
-	grid-template-rows: 1fr 6fr;
+	grid-template-rows: 10% 5fr;
 	margin: 0;
 	background-color: red;
 }
@@ -16,7 +18,7 @@ main {
 	background-size: cover;
 	background-position: right;
 	background-repeat: no-repeat;
-	padding: 1rem;
+	padding: 2rem;
 	display: grid;
 	align-items: end;
 	align-content: end;
@@ -27,9 +29,6 @@ header {
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
-}
-img {
-	margin: auto 0;
 }
 
 .keyboard {
@@ -50,8 +49,6 @@ img {
 	height: 30px;
 	justify-self: start;
 }
-/* .keyboard-keys:nth-child(1) {
-} */
 
 .hidden {
 	display: none;
@@ -65,24 +62,24 @@ img {
 #game-over {
 	position: fixed;
 	display: none;
-	top: 20px;
-	left: 20px;
-	right: 20px;
-	bottom: 20px;
-	background-color: rgba(0, 0, 0,0.5);
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 2;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 }
-.game-over-screen-text{
+.game-over-screen-text {
 	text-align: center;
 	font-size: 40px;
 	color: white;
 }
-.new-game{
+.new-game {
 	margin: 20px;
 }
-#red-name{
+#red-name {
 	color: red;
 }
