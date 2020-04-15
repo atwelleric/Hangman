@@ -9,19 +9,20 @@ let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
 //Handle name submit for the player, then create an object for the player to score name and score
+
 let playerOne = {
 	name: '',
 	score: 0,
 	turn: 0,
 };
-playerOne.name = '';
+//playerOne.name = '';
 let playerTwo = {
 	name: 'Challenger',
 	score: 0,
 };
+retrieveSaveData();
 let submitNameButton = document.querySelector('.submit-name');
 submitNameButton.addEventListener('click', handlePlayerOneName);
-retrieveSaveData();
 if (playerOne.name !== '') {
 	document.querySelector('.user-name-input').classList.add('hidden');
 }
@@ -51,9 +52,9 @@ function retrieveRandomWord() {
 //this function loads the saved data from local storage
 function retrieveSaveData() {
 	let retrievedData = localStorage.getItem('playerOne');
-	playerOne = JSON.parse(retrievedData);
+	playerOne = retrievedData ? JSON.parse(retrievedData) : playerOne;
 	let retrievedDataP2 = localStorage.getItem('playerTwo');
-	playerTwo = JSON.parse(retrievedDataP2);
+	playerTwo = retrievedDataP2 ? JSON.parse(retrievedDataP2) : playerTwo;
 }
 
 // This function save the player score data in local storage
