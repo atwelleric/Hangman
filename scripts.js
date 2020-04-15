@@ -16,10 +16,15 @@ let playerOne = {
 	score: 0,
 	turn: 0,
 };
+playerOne.name = '';
 let playerTwo = {
 	name: 'Challenger',
 	score: 0,
 };
+retrieveSaveData();
+if (playerOne.name !== '') {
+	document.querySelector('.user-name-input').classList.add('hidden');
+}
 // API for the random word generation
 let randomWordButton = document.querySelector('.random-word');
 randomWordButton.addEventListener('click', retrieveRandomWord);
@@ -43,7 +48,6 @@ function retrieveRandomWord() {
 		});
 }
 //load the game on restart
-retrieveSaveData();
 //this function loads the saved data from local storage
 function retrieveSaveData() {
 	let retrievedData = localStorage.getItem('playerOne');
@@ -56,9 +60,6 @@ function retrieveSaveData() {
 function saveData() {
 	localStorage.setItem('playerOne', JSON.stringify(playerOne));
 	localStorage.setItem('playerTwo', JSON.stringify(playerTwo));
-	if (playerOne.name !== '') {
-		document.querySelector('.user-name-input').classList.add('hidden');
-	}
 }
 // This function is for the listener that submits the players name
 function handlePlayerOneName() {
