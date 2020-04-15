@@ -9,8 +9,6 @@ let submittedSecretWord = '';
 let splitSecretWord = [];
 let newArray = [];
 //Handle name submit for the player, then create an object for the player to score name and score
-let submitNameButton = document.querySelector('.submit-name');
-submitNameButton.addEventListener('click', handlePlayerOneName);
 let playerOne = {
 	name: '',
 	score: 0,
@@ -21,6 +19,8 @@ let playerTwo = {
 	name: 'Challenger',
 	score: 0,
 };
+let submitNameButton = document.querySelector('.submit-name');
+submitNameButton.addEventListener('click', handlePlayerOneName);
 retrieveSaveData();
 if (playerOne.name !== '') {
 	document.querySelector('.user-name-input').classList.add('hidden');
