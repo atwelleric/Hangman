@@ -33,13 +33,20 @@ header {
 
 .keyboard {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
-	height: 120px;
-	width: 800px;
+	/* the repeat function takes two arguments
+	the first is the number of times to repeat
+	the second is the size of each */
+	grid-template-columns: repeat(10, 1fr);
+	/* height: 120px; */
+	/* setting the width to 800px means you can never 
+	play the game on a mobile device. instead set it to just 
+	fill the space.  if you don't want it to grow past a 
+	certain point use max-width */
+	width: 100%;
+	max-width: 800px;
 	/* background-color: blue; */
 	text-align: center;
-	margin: auto 0;
+	/* margin: auto 0; */
 }
 
 .keyboard-keys {
