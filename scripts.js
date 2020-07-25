@@ -6,6 +6,7 @@ let wrongGuessNumber = 0;
 const submitButton = document.querySelector('.submit');
 let secretWord = document.querySelector('.secret-word');
 let submittedSecretWord = '';
+let lcsw = '';
 let splitSecretWord = [];
 let newArray = [];
 //Handle name submit for the player, then create an object for the player to score name and score
@@ -15,7 +16,6 @@ let playerOne = {
 	score: 0,
 	turn: 0,
 };
-//playerOne.name = '';
 let playerTwo = {
 	name: 'Challenger',
 	score: 0,
@@ -76,7 +76,8 @@ function handleSubmitButton() {
 	submittedSecretWord = secretWord.value
 		? secretWord.value
 		: submittedSecretWord;
-	splitSecretWord = submittedSecretWord.split('');
+	lcsw = submittedSecretWord.toLowerCase();
+	splitSecretWord = lcsw.split('');
 	secretWord.value = '';
 	newArray = Array(splitSecretWord.length).fill(' ');
 	for (let i = 0; i < splitSecretWord.length; i++) {
@@ -126,27 +127,27 @@ function evaluateUserGuess(event) {
 		wrongGuessNumber++;
 	}
 	if (wrongGuessNumber == 1) {
-		document.querySelector('main').style.backgroundImage =
+		document.querySelector('.hangman').style.backgroundImage =
 			"url('images/hangman2.png')";
 	}
 	if (wrongGuessNumber == 2) {
-		document.querySelector('main').style.backgroundImage =
+		document.querySelector('.hangman').style.backgroundImage =
 			"url('images/hangman3.png')";
 	}
 	if (wrongGuessNumber == 3) {
-		document.querySelector('main').style.backgroundImage =
+		document.querySelector('.hangman').style.backgroundImage =
 			"url('images/hangman4.png')";
 	}
 	if (wrongGuessNumber == 4) {
-		document.querySelector('main').style.backgroundImage =
+		document.querySelector('.hangman').style.backgroundImage =
 			"url('images/hangman5.png')";
 	}
 	if (wrongGuessNumber == 5) {
-		document.querySelector('main').style.backgroundImage =
+		document.querySelector('.hangman').style.backgroundImage =
 			"url('images/hangman6.png')";
 	}
 	if (wrongGuessNumber == 6) {
-		document.querySelector('main').style.backgroundImage =
+		document.querySelector('.hangman').style.backgroundImage =
 			"url('images/hangman7.png')";
 		gameOverOnLoss();
 	}
@@ -158,16 +159,13 @@ let playerTwoScoreDisplay = document.querySelector('#player-two-score-set');
 playerTwoScoreDisplay.innerText = playerTwo.score;
 // this function checks if the player won
 function checkForWin() {
-	if (newArray.join('') === submittedSecretWord && playerOne.turn % 2 == 0) {
+	if (newArray.join('') === lcsw && playerOne.turn % 2 == 0) {
 		playerOne.score++;
 		playerOneScoreDisplay.innerHTML = playerOne.score;
 		playerOne.turn++;
 		saveData();
 		gameOverOnWin();
-	} else if (
-		newArray.join('') === submittedSecretWord &&
-		playerOne.turn % 2 !== 0
-	) {
+	} else if (newArray.join('') === lcsw && playerOne.turn % 2 !== 0) {
 		playerTwo.score++;
 		playerTwoScoreDisplay.innerHTML = playerTwo.score;
 		playerOne.turn++;
